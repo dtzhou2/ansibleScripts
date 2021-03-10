@@ -1,0 +1,28 @@
+---
+- hosts: tests
+  tasks:
+  - name: Install system management modules 
+    become: yes
+    yum: 
+     name: 
+      - lm_sensors
+      - mlocate 
+      - vim
+      - sshpass
+     state: installed
+  - name: Copy public key from master to slaves
+    authorized_key:
+     user: admin
+     state: present
+     key: "{{ lookup('file', '/home/admin/.ssh/id_rsa.pub') }}"
+  - name: Clean up dumb stuff I did
+    become: yes
+    file: dest={{ item }} state=absent
+    with_items:
+     - /home/admin/.ssh/id_rsa
+     - /home/admin/.ssh/id_rsa.pub
+  - name: Create slave keys then copy pubKey to master
+    become: no
+    script: /home/admin/playbooks/ssh.sh
+    register: command_result
+    failed_when: "'Failed' in command_result.stderr"
