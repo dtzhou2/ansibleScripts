@@ -1,0 +1,5 @@
+---
+ - name: Open UFW ports
+   become: yes
+   ufw:
+  

@@ -1,0 +1,6 @@
+---
+heldPackages: 
+ - kubelet
+ - kubeadm
+
+items: "asdfasdfasdf"

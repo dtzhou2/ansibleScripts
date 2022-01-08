@@ -1,0 +1,64 @@
+---
+- hosts: kubernetesControl
+  vars:
+    dns: "1.1.1.1"
+  roles:
+   - kubernetes
+  tasks:  
+  
+  - name: Temporarily get DNS working
+    become: yes
+    lineinfile:
+      path: /etc/resolv.conf
+      line: "nameserver 1.1.1.1" 
+      state: present
+      create: yes
+  - name: Install system management modules 
+    become: yes
+    apt: 
+     name: 
+      - lm-sensors
+      - mlocate 
+      - vim
+      - sshpass
+      - resolvconf
+      - apt-transport-https
+      - curl
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      - screen 
+     state: present
+  - name: Add exception for SSH 
+    become: yes
+    ufw:
+      rule: allow
+      name: OpenSSH
+  - name: Ensure Services are Enabled and Running
+    become: yes
+    systemd: 
+      name: ufw
+      enabled: yes 
+      state: started
+  - name: Standardize DNS providers
+    become: yes
+    lineinfile:
+      path: /etc/resolvconf/resolv.conf.d/head
+      line: "nameserver 1.1.1.1" 
+      state: present
+      create: yes
+  - name: Create directory for kubernetes admin
+    become: yes
+    file:
+      path: "/opt/kubernetes"
+      state: directory 
+  - name: Add a new user and give it rights
+    become: yes
+    user:
+      name: "kubernetes"
+      password: "a3b2f5c4"
+      home: "/opt/kubernetes"
+      groups: "sudo"
+      append: "yes"
+      state: present
+

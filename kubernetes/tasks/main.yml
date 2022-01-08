@@ -1,0 +1,7 @@
+- name: Install kubeADM on redhat
+  import_tasks: redKube.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+- name: Install kubeADM on ubuntu/debian
+  import_tasks: ubuKube.yml
+  when: ansible_facts['os_family']|lower == 'debian' 

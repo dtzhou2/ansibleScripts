@@ -1,8 +1,9 @@
 ---
-- hosts: kubernetes
+- hosts: kubernetesControl
   vars:
     dns: "1.1.1.1"
-  
+  roles:
+   - kubernetes
   tasks:  
   - name: Temporarily get DNS working
     become: yes
@@ -20,6 +21,11 @@
       - vim
       - sshpass
       - resolvconf
+      - apt-transport-https
+      - curl
+      - ca-certificates
+      - gnupg
+      - lsb-release
      state: present
   - name: Add exception for SSH 
     become: yes

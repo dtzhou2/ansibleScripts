@@ -1,0 +1,93 @@
+---
+ - name: Open UFW ports
+   become: yes
+   ufw: 
+    rule: allow
+    proto: tcp
+    port: '6443'
+ - name: help
+   become: yes
+   ufw: 
+    rule: allow
+    proto: tcp
+    port: '10250:10252'
+ - name: help
+   become: yes
+   ufw:
+    rule: allow 
+    proto: tcp
+    port: '2379:2390'
+ - name: Enable Docker Key
+   become: yes
+   apt_key:
+    url: "https://download.docker.com/linux/ubuntu/gpg" 
+    state: present
+ - name: Add Docker Repository
+   become: yes
+   apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present 
+ - name: Enable Kubernetes key
+   become: yes
+   apt_key:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    keyring: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+    state: present 
+ - name: Add Kubernetes repository
+   become: yes
+   apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present 
+ - name: Install containerization and kubernetes packages 
+   become: yes
+   apt: 
+    state: present
+    name: 
+     - containerd.io
+     - kubeadm
+     - kubelet 
+     - kubectl
+ - name: Create directory for containerd configuration
+   become: yes
+   file:
+    path: "/etc/containerd"
+    state: directory 
+ - name: Copy containerd configuration file over
+   become: yes
+   copy:
+    src: files/config.toml
+    dest: /etc/containerd/config.toml
+    owner: root
+    group: root 
+    mode: '0755'
+ - name: Hold the kubernetes packages (prevent them from being upgraded) (ooh loops) 
+   become: yes
+   dpkg_selections: 
+    name: " {{ items }} " 
+    selection: hold
+   loop: 
+     - kubeadm
+     - kubectl
+     - kubelet
+ - name: Create kubelet configuration directory
+   become: yes 
+   file:
+    path: "/var/lib/kubelet"
+    state: directory
+ - name: Copy kubelet configuration file
+   become: yes
+   copy:
+    src: "files/config.yaml"
+    dest: "/var/lib/kubelet/config.yaml"
+    owner: root
+    group: root
+    mode: '0755' 
+ - name: restart and enable services
+   become: yes 
+   service:
+    name: containerd
+    enabled: yes
+    state: restarted
+
+
+  
