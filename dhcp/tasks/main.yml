@@ -1,0 +1,26 @@
+---
+- hosts: dhcp
+  tasks:  
+  - name: Install system management modules 
+    become: yes
+    apt: 
+     name: 
+      - lm-sensors
+      - mlocate 
+      - vim
+      - sshpass
+      - resolvconf
+      - nmap
+     state: present
+  - name: Add exception for SSH 
+    become: yes
+    ufw:
+      rule: allow
+      name: OpenSSH
+  - name: Ensure Services are Enabled and Running
+    become: yes
+    systemd: 
+      name: ufw
+      enabled: yes 
+      state: started
+
