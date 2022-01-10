@@ -40,7 +40,8 @@ zone 16.10.in-addr.arpa. {
 
 {% for networks in subnets %}
 
-  {{ networks|first }}
+  {{ networks| ansible.netcommon.ipaddr('network') }}
+  {{ networks| ansible.netcommon.ipaddr('netmask') }}
 
 {% endfor %}
 
