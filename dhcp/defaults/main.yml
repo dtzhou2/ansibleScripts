@@ -1,2 +1,2 @@
 dhcp_packages:
-  - 'dhcp'
+  - 'dhcp-server'
