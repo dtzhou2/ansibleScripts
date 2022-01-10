@@ -45,7 +45,7 @@ subnet {{ networks| ansible.netcommon.ipaddr('network') }} netmask {{ networks| 
   option routers {{ networks| ansible.netcommon.ipaddr('1') | ansible.netcommon.ipv4('address')}};
   option broadcast-address {{ networks| ansible.netcommon.ipaddr('broadcast') }};
   option subnet-mask {{ networks| ansible.netcommon.ipaddr('netmask') }};
-  range {{ networks| ansible.netcommon.ipaddr('2') | ansible.netcommon.ipv4('address')}} {{ networks| ansible.netcommon.ipaddr('-1')| ansible.netcommon.ipv4('address') }};
+  range {{ networks| ansible.netcommon.ipaddr('2') }} {{ networks| ansible.netcommon.ipaddr('-1')}};
   default-lease-time {{ default_lease_time }};
 }
   
