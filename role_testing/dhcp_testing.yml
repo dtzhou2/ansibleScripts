@@ -1,3 +1,4 @@
 ---
-- roles:
+- hosts: dhcp
+  roles:
     - role: dhcp
