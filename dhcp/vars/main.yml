@@ -15,6 +15,7 @@ bootp_file: "pxelinux.0"
 #Defines a list of networks that will be advertised by dhcpd
 subnets:
   - 10.16.16.0/20
+  - 10.16.32.0/20
 
 #IF BREAKING UP AN ENTIRE PRIVATE SPACE USE THE FOLLOWING
 supernet:
