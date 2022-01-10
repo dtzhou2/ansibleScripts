@@ -1,6 +1,5 @@
 ---
-- hosts: dhcp
-  tasks:  
+- tasks:  
   - name: Install system management modules 
     become: yes
     package:
