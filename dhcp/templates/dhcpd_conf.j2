@@ -46,7 +46,7 @@ zone 16.10.in-addr.arpa. {
   option broadcast-address {{ networks| ansible.netcommon.ipaddr('broadcast') }};
   option subnet-mask {{ networks| ansible.netcommon.ipaddr('netmask') }};
   range {{ networks| ansible.netcommon.ipaddr('2') }} {{ networks| ansible.netcommon.ipaddr('-1') }};
-  default-lease-time {{ deafult_lease_time }};
+  default-lease-time {{ default_lease_time }};
   }
   
 {% endfor %}
