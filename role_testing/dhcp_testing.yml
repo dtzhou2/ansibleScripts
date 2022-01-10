@@ -2,3 +2,28 @@
 - hosts: dhcp
   roles:
     - role: dhcp
+  tasks:
+  - name: Enable dhcpd through ufw
+    become: yes
+    ufw:
+      rule: allow
+      port: 67
+      proto: any
+    notify: ufw_restart
+    when: ansible_facts['os_family'] == "Debian"
+  - name: Enable dhcpd through ufw
+    become: yes
+    ufw:
+      rule: allow
+      port: 68
+      proto: any
+    when: ansible_facts['os_family'] == "Debian"
+    notify: ufw_restart
+  - name: Enable dhcpd through firewalld
+    become: yes
+    firewalld:
+      port: 67-68/udp
+      permanent: yes
+      state: enabled
+    when: ansible_facts['os_family'] == "RedHat"
+    notify: firewalld_restart

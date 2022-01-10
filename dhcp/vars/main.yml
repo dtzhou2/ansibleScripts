@@ -1,0 +1,32 @@
+---
+default_lease_time: 300
+dhcp_package: 'dhcp-server'
+dns_server: 10.16.16.2
+
+#Options that only need to be set if ddns is enabled
+ddns: true
+domain_name: "servers.streisand.ovh."
+
+#Options that only need to be set if bootp is enabled
+bootp: true
+next_server: 10.16.16.135
+bootp_file: "pxelinux.0"
+
+#Defines a list of networks that will be advertised by dhcpd
+subnets:
+  - 10.16.16.0/20
+  - 10.16.32.0/20
+  - 10.16.48.0/20
+  - 10.16.64.0/20
+  - 10.16.80.0/20
+  - 10.16.96.0/20
+  - 10.16.112.0/20
+  - 10.16.128.0/20
+  - 10.16.144.0/20
+  - 10.16.160.0/20
+  - 10.16.172.0/20
+  - 10.16.196.0/20
+  - 10.16.212.0/20
+#IF BREAKING UP AN ENTIRE PRIVATE SPACE USE THE FOLLOWING
+supernet:
+  - 10.0.0.0/8

@@ -1,7 +1,14 @@
 default_lease_time: 300
-dhcp_packages:
-  - 'dhcp-server'
+dhcp_package: 'dhcp-server'
+max_lease_time: 7200
+authoritative: yes
+ddns: false
+bootp: false
+#Defines a list of networks that will be advertised by dhcpd
 subnets:
-  - 10.16.16.20/20
-  - 10.16.16.20/20
-  - 10.16.16.20/20
+  - 10.16.16.0/20
+#IF BREAKING UP AN ENTIRE PRIVATE SPACE USE THE FOLLOWING
+supernet:
+  - 10.0.0.0/8
+
+
