@@ -1,0 +1,20 @@
+---
+# Handlers file for recurring tasks
+- name: dhcpd_restart
+  become: yes
+  systemd: 
+    name: dhcpd
+    enabled: yes 
+    state: started
+- name: firewalld_restart
+  become: yes
+  systemd: 
+    name: firewalld
+    enabled: yes 
+    state: started
+- name: ufw_restart
+  become: yes
+  systemd: 
+    name: firewalld
+    enabled: yes 
+    state: started
