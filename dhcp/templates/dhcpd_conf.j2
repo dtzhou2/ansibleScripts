@@ -40,9 +40,15 @@ zone 16.10.in-addr.arpa. {
 
 {% for networks in subnets %}
 
-  {{ networks| ansible.netcommon.ipaddr('network') }}
-  {{ networks| ansible.netcommon.ipaddr('netmask') }}
-
+  subnet {{ networks| ansible.netcommon.ipaddr('network') }} netmask {{ networks| ansible.netcommon.ipaddr('netmask') }}
+  {
+  option routers {{ networks| ansible.netcommon.ipaddr('1') }};
+  option broadcast-address {{ networks| ansible.netcommon.ipaddr('broadcast') }};
+  option subnet-mask {{ networks| ansible.netcommon.ipaddr('netmask') }};
+  range {{ networks| ansible.netcommon.ipaddr('2') }} {{ networks| ansible.netcommon.ipaddr('-1') }};
+  default-lease-time {{ deafult_lease_time }};
+  }
+  
 {% endfor %}
 
 subnet 10.16.0.0 netmask 255.255.240.0 {

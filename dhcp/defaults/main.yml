@@ -1,3 +1,4 @@
+default_lease_time: 300
 dhcp_packages:
   - 'dhcp-server'
 subnets:
